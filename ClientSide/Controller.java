@@ -74,14 +74,13 @@ public class Controller {
 		switch(serverResponse.charAt(0)){
 			//Input from Client required
 			case '1':
-				// input = stdIn.readLine();
-				// socketOut.println(input);
+				client.out(gui.getPlayerName());
 				break;
-			//End of game
+			//Sending position of clicked button to server
 			case '2':
-				// stdIn.close();
-				// socketIn.close();
-				// socketOut.close();
+				//TODO: Make "position" a member variable of the GUI, so that when a button is
+				// clicked we can access it's value within this method. Position should be set to null
+				// at the start of every turn in order to ignore out of turn clicks by the player.
 				return;
 			// Set the players symbol
 			case '3':

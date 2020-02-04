@@ -54,4 +54,8 @@ public class Client {
         return this.info;
     }
 
+    public void out(String s){
+        socketOut.println(s);
+    }
+
 }

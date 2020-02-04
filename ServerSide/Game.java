@@ -30,22 +30,22 @@ public class Game implements Constants, Runnable {
      */
     @Override
     public void run() {
-        // try {
+        try {
             // Intro to game
             playerWelcome();
-            // getNames();
+            getNames();
             xPlayer.out().println("You are facing: " + oPlayer.getName());
             oPlayer.out().println("You are facing: " + xPlayer.getName());
 
-            // // Game Setup
-            // xPlayer.setBoard(theBoard);
-            // oPlayer.setBoard(theBoard);
-            // theRef.setBoard(theBoard);
-            // theRef.setoPlayer(oPlayer);
-            // theRef.setxPlayer(xPlayer);
+            // Game Setup
+            xPlayer.setBoard(theBoard);
+            oPlayer.setBoard(theBoard);
+            theRef.setBoard(theBoard);
+            theRef.setoPlayer(oPlayer);
+            theRef.setxPlayer(xPlayer);
 
-            // // Game Start
-            // theRef.runTheGame();
+            // Game Start
+            theRef.runTheGame();
 
             // TODO Maybe turn into rematch option? or have this as exit?
             // try {
@@ -55,34 +55,32 @@ public class Game implements Constants, Runnable {
             // } catch (IOException e) {
             //     e.printStackTrace();
             // }
-        // }
-        // catch (SocketException e) {
-        //     xPlayer.out().println("The other player has disconnected, please restart the game");
-        //     oPlayer.out().println("The other player has disconnected, please restart the game");
-        // }
+        }
+        catch (SocketException e) {
+            xPlayer.out().println("The other player has disconnected, please restart the game");
+            oPlayer.out().println("The other player has disconnected, please restart the game");
+        }
     }
 
     private void getNames(){
-        xPlayer.out().println("Please enter your name: ");
-        oPlayer.out().println("Please enter your name: ");
         xPlayer.out().println("1");
         oPlayer.out().println("1");
         try{
             xPlayer.setName(xPlayer.in().readLine());
             oPlayer.setName(oPlayer.in().readLine());
-            // TODO Better name validation - do in a method
-            while(xPlayer.getName().equals(null) || oPlayer.getName().equals(null)){
-                if(xPlayer.getName().equals(null)){
-                    xPlayer.out().print("Please try again: ");
-                    xPlayer.out().println("1");
-                    xPlayer.setName(xPlayer.in().readLine());
-                }
-                if(oPlayer.getName().equals(null)){
-                    oPlayer.out().print("Please try again: ");
-                    oPlayer.out().println("1");
-                    oPlayer.setName(xPlayer.in().readLine());
-                }
-            }
+            // // TODO Better name validation - do in a method
+            // while(xPlayer.getName().equals(null) || oPlayer.getName().equals(null)){
+            //     if(xPlayer.getName().equals(null)){
+            //         xPlayer.out().print("Please try again: ");
+            //         xPlayer.out().println("1");
+            //         xPlayer.setName(xPlayer.in().readLine());
+            //     }
+            //     if(oPlayer.getName().equals(null)){
+            //         oPlayer.out().print("Please try again: ");
+            //         oPlayer.out().println("1");
+            //         oPlayer.setName(xPlayer.in().readLine());
+            //     }
+            // }
         } catch (Exception e) {
             e.printStackTrace();
         }

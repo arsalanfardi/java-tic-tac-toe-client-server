@@ -39,11 +39,13 @@ public class GUI extends JFrame {
 	/**
 	 * Gets the player name.
 	 *
-	 * @param symbol the symbol
 	 * @return the player name
 	 */
-	public String getPlayerName(char symbol) {
-		String name = JOptionPane.showInputDialog("Enter your name:");
+	public String getPlayerName() {
+		String name = null;
+		while(name == null)
+			name = JOptionPane.showInputDialog("Enter your name:");
+		setUserNameField(name);
 		return name;
 	}
 	
@@ -82,7 +84,7 @@ public class GUI extends JFrame {
 	 * 
 	 * @param s the symbol of the player ('O' or 'X')
 	 */
-	public void setUserNameField(String s) {
+	private void setUserNameField(String s) {
 		userNameField.setText(s);
 	}
 	/**

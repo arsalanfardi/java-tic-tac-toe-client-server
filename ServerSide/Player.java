@@ -40,7 +40,6 @@ public class Player {
      * game ends.
      */
 	public void play() throws SocketException {
-        socketOut.print(board.display());
         opponent.out().println(name + "'s turn");
 		while(true) {
             this.makeMove();
@@ -63,17 +62,16 @@ public class Player {
 	public void makeMove() throws SocketException {
 		// Scanner scan = new Scanner(System.in);
 		int row = 3;
-		int col = 3;
+        int col = 3;
+        String position = "";
 		while(isValid(row, col) == false) {
             try {
-                socketOut.println(name + ": enter the row of your next " + mark);
-                socketOut.println("1");
-                row = Integer.parseInt(socketIn.readLine());
-                socketOut.println(name + ": enter the column of your next " + mark);
-                socketOut.println("1");
-                col = Integer.parseInt(socketIn.readLine());
-                if(isValid(row,col) == false)
-                    socketOut.println("Invalid entry, please try again");
+                socketOut.println("2");
+                position = socketIn.readLine();
+                row = position.charAt(0);
+                col = position.charAt(1);
+                // if(isValid(row,col) == false)
+                //     socketOut.println("Invalid entry, please try again");
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -82,9 +80,9 @@ public class Player {
         }
         board.addMark(row, col, mark);
         //socketOut.print(opponent.getName() + "'s turn" + board.display());
-        socketOut.println(board.display());
+        socketOut.println("4" + mark + position);
+        opponent.out().print("4" + mark + position);
         socketOut.println(opponent.getName() + "'s turn");
-        opponent.out().print(board.display());
 	}
 	/**
 	 * Assigns board object to the Board instance variable, representing the playing field
