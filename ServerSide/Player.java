@@ -29,7 +29,7 @@ public class Player {
 
     public Player(BufferedReader socketIn, PrintWriter socketOut, char mark) {
         this.socketIn = socketIn;
-        this.socketOut = (socketOut);
+        this.socketOut = socketOut;
         this.mark = mark;
     }
 
@@ -41,17 +41,15 @@ public class Player {
      */
 	public void play() throws SocketException {
         opponent.out().println(name + "'s turn");
-		while(true) {
+		while(checkMove()) {
             this.makeMove();
-			if(this.checkMove())
+            if(this.checkMove()) {
                 opponent.makeMove();
+            }
             else
                 break;
         }
-        socketOut.print(board.display());
-        opponent.out().print(board.display());
-        socketOut.println("2");
-        opponent.out().println("2");
+        System.out.println("Game finished");
 		// this.playAgain();
     }
     
@@ -60,7 +58,6 @@ public class Player {
 	 * Checks if the entry is valid by invoking isValid(), before adding the player's mark to the board.
 	 */
 	public void makeMove() throws SocketException {
-		// Scanner scan = new Scanner(System.in);
 		int row = 3;
         int col = 3;
         String position = "";
@@ -68,10 +65,10 @@ public class Player {
             try {
                 socketOut.println("2");
                 position = socketIn.readLine();
-                row = position.charAt(0);
-                col = position.charAt(1);
-                // if(isValid(row,col) == false)
-                //     socketOut.println("Invalid entry, please try again");
+                row = Character.getNumericValue(position.charAt(0));
+                col = Character.getNumericValue(position.charAt(1));
+                if(isValid(row,col) == false)
+                    socketOut.println("Invalid entry, please try again");
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -79,9 +76,8 @@ public class Player {
             }
         }
         board.addMark(row, col, mark);
-        //socketOut.print(opponent.getName() + "'s turn" + board.display());
         socketOut.println("4" + mark + position);
-        opponent.out().print("4" + mark + position);
+        opponent.out().println("4" + mark + position);
         socketOut.println(opponent.getName() + "'s turn");
 	}
 	/**
@@ -114,23 +110,23 @@ public class Player {
 			return true;
 	}
 	/**
-	 * Returns true if a move results in the end of a game, either by the Board being full or one of the Players winning.
+	 * Returns false if a move results in the end of a game, either by the Board being full or one of the Players winning.
 	 * @return
 	 */
 	private boolean checkMove() {
 		if(board.isFull()) {
-            socketOut.println("It's a tie!");
-            opponent.out().println("It's a tie!");
+            socketOut.println("5It's a tie!");
+            opponent.out().println("5It's a tie!");
 			return false;
 		}
 		else if (board.xWins()) {
-            socketOut.println("GAME OVER: " + name + " wins!");
-            opponent.out().println("GAME OVER: " + name + " wins!");
+            socketOut.println("5GAME OVER: " + name + " wins!");
+            opponent.out().println("5GAME OVER: " + name + " wins!");
 			return false;
 		}
 		else if(board.oWins()) {
-            socketOut.println("GAME OVER: " + opponent.getName() + " wins!");
-            opponent.out().println("GAME OVER: " + opponent.getName() + " wins!");
+            socketOut.println("5GAME OVER: " + opponent.getName() + " wins!");
+            opponent.out().println("5GAME OVER: " + opponent.getName() + " wins!");
 			return false;
 		}
 		return true;

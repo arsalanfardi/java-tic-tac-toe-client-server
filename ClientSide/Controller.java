@@ -21,7 +21,9 @@ public class Controller {
 	/** The client that connects to the server */
 	Client client;
 	
-	
+	/** The position of the clicked button */
+	int[] position;
+
 	/**
 	 * Instantiates a new tic-tac-toe controller.
 	 *
@@ -53,8 +55,7 @@ public class Controller {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// get the coordinates of button click
-			int[] position = gui.getButtonPosition((JButton) e.getSource());
-			
+			position = gui.getButtonPosition((JButton) e.getSource());
 			//TODO:
 			// now we send the coordinates to server (via client class)
 			//// invoke client "send" method
@@ -66,7 +67,7 @@ public class Controller {
 
 			// TODO:
 			// mark the GUI board ON BOTH CLIENTS!!! - done from server
-			gui.markBoard((JButton) e.getSource(), 'X');
+			// gui.markBoard((JButton) e.getSource(), 'X');
 		}
 	}
 	
@@ -78,13 +79,27 @@ public class Controller {
 				break;
 			//Sending position of clicked button to server
 			case '2':
-				//TODO: Make "position" a member variable of the GUI, so that when a button is
-				// clicked we can access it's value within this method. Position should be set to null
-				// at the start of every turn in order to ignore out of turn clicks by the player.
-				return;
+				position = null;
+				while(position == null){
+					gui.setMessageWindow("Waiting for your turn");
+				}
+				client.out(String.valueOf(position[0]) + String.valueOf(position[1]));
+				break;
 			// Set the players symbol
 			case '3':
 				gui.setPlayerField(serverResponse.substring(1));
+				break;
+			// Marking the board
+			case '4':
+				char mark = serverResponse.charAt(1);
+				int row = Character.getNumericValue(serverResponse.charAt(2));
+				int col = Character.getNumericValue(serverResponse.charAt(3));
+				gui.markBoard(row, col, mark);
+				break;
+			case '5':
+				gui.setMessageWindow("GAME OVER");
+				gui.createMessageBox(serverResponse.substring(1));
+				client.setLive(false);
 				break;
 			//Server to Client message
 			default:

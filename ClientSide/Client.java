@@ -11,7 +11,7 @@ public class Client {
     private BufferedReader socketIn;
     private PrintWriter socketOut;
     private Controller controller;
-    private String info = ""; // this is information from server
+    private boolean live;
 
     public Client
 (String serverName, int portNumber) {
@@ -21,6 +21,7 @@ public class Client {
             socketIn = new BufferedReader(new InputStreamReader(aSocket.getInputStream()));
             socketOut = new PrintWriter(aSocket.getOutputStream(), true);
             System.out.println("Client connected");
+            live = true;
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -32,7 +33,7 @@ public class Client {
     public void gaming() {
         String serverResponse = "";
         // read response from the socket
-            while(true){
+            while(live){
             try{
                 serverResponse = socketIn.readLine(); //read response from the socket
                 if(serverResponse != null){
@@ -46,12 +47,11 @@ public class Client {
         }
     }
 
+    public void setLive(boolean live){
+        this.live = live;
+    }
     public void setController (Controller controller) {
         this.controller = controller;
-    }
-
-    public String getInfo () {
-        return this.info;
     }
 
     public void out(String s){

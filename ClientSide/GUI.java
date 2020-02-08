@@ -112,6 +112,19 @@ public class GUI extends JFrame {
 			}
 		}
 	}
+
+	public void markBoard(int row, int col, char mark) {
+		for(int i=0;i<buttons.length; i++) {
+			if(i == row){
+				for (int j=0;j<buttons.length; j++) {
+					if (j == col) {
+						buttons[i][j].setText(String.valueOf(mark));
+						return;
+					}
+				}
+			}
+		}
+	}
 	/**
 	 * Returns the position of the selected button by matching the source to a button in the buttons array.
 	 * 

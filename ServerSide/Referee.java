@@ -32,7 +32,6 @@ public class Referee {
 	public void runTheGame() throws SocketException {
 		oPlayer.setOpponent(xPlayer);
 		xPlayer.setOpponent(oPlayer);
-		board.display();
 		xPlayer.play();
 	}
 	/**

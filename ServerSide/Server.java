@@ -72,14 +72,5 @@ public class Server {
     public static void main(String[] args) {
         Server server = new Server();
         server.runServer();
-
-        // Question for Dr. M - do we need to ensure thread shutdown before server shutdown?
-        // if yes, is this the right place? OR in the try-catch before socket close
-        // server.pool.shutdown();
-        // try {
-        //     server.pool.awaitTermination(1, TimeUnit.MINUTES);
-        // } catch (InterruptedException e) {
-        //     e.printStackTrace();
-        // }
     }
 }
