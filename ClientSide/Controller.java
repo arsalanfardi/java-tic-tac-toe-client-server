@@ -1,7 +1,5 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.InputStream;
-
+import java.awt.event.*;
 import javax.swing.JButton;
 
 /**
@@ -14,13 +12,13 @@ import javax.swing.JButton;
  * @since February 03, 2020
  */
 public class Controller {
-	
+
 	/** The gui. */
 	GUI gui;
-	
+
 	/** The client that connects to the server */
 	Client client;
-	
+
 	/** The position of the clicked button */
 	int[] position;
 
@@ -39,14 +37,13 @@ public class Controller {
 		client.gaming();
 	}
 
-
 	/**
 	 * The listener interface for receiving game events.
 	 *
 	 * @see GameEvent
 	 */
-	private class GameListener implements ActionListener{
-		
+	private class GameListener implements ActionListener {
+
 		/**
 		 * Action performed.
 		 *
@@ -54,20 +51,7 @@ public class Controller {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// get the coordinates of button click
 			position = gui.getButtonPosition((JButton) e.getSource());
-			//TODO:
-			// now we send the coordinates to server (via client class)
-			//// invoke client "send" method
-
-			//TODO:
-			// get response from server (via client class)
-			//// if response is valid, display to board
-			////	maybe response from server is "X", "O" or "null"
-
-			// TODO:
-			// mark the GUI board ON BOTH CLIENTS!!! - done from server
-			// gui.markBoard((JButton) e.getSource(), 'X');
 		}
 	}
 	
@@ -79,11 +63,7 @@ public class Controller {
 				break;
 			//Sending position of clicked button to server
 			case '2':
-				position = null;
-				while(position == null){
-					gui.setMessageWindow("Waiting for your turn");
-				}
-				client.out(String.valueOf(position[0]) + String.valueOf(position[1]));
+				makeMove();
 				break;
 			// Set the players symbol
 			case '3':
@@ -91,15 +71,10 @@ public class Controller {
 				break;
 			// Marking the board
 			case '4':
-				char mark = serverResponse.charAt(1);
-				int row = Character.getNumericValue(serverResponse.charAt(2));
-				int col = Character.getNumericValue(serverResponse.charAt(3));
-				gui.markBoard(row, col, mark);
+				markBoard(serverResponse);
 				break;
 			case '5':
-				gui.setMessageWindow("GAME OVER");
-				gui.createMessageBox(serverResponse.substring(1));
-				client.setLive(false);
+				gameOver(serverResponse);
 				break;
 			//Server to Client message
 			default:
@@ -108,7 +83,26 @@ public class Controller {
 		}
 	}
 
-	public static void main (String[] args) {
+	private void gameOver(String serverResponse){
+		gui.setMessageWindow("GAME OVER");
+		gui.createMessageBox(serverResponse.substring(1));
+		client.setLive(false);
+	}
+	private void markBoard(String serverResponse) {
+		char mark = serverResponse.charAt(1);
+		int row = Character.getNumericValue(serverResponse.charAt(2));
+		int col = Character.getNumericValue(serverResponse.charAt(3));
+		gui.markBoard(row, col, mark);
+	}
+
+	private void makeMove() {
+		position = null;
+		while(position == null){
+			gui.setMessageWindow("Waiting for your turn");
+		}
+		client.out(String.valueOf(position[0]) + String.valueOf(position[1]));
+	}
+	public static void main(String[] args) {
 		GUI gui = new GUI();
 		Client client = new Client("localhost", 9898);
 		Controller clientController = new Controller(gui, client);

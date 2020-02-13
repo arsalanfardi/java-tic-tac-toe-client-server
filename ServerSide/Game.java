@@ -30,36 +30,21 @@ public class Game implements Constants, Runnable {
      */
     @Override
     public void run() {
-        try {
-            // Intro to game
-            playerWelcome();
-            getNames();
-            xPlayer.out().println("You are facing: " + oPlayer.getName());
-            oPlayer.out().println("You are facing: " + xPlayer.getName());
+        // Intro to game
+        playerWelcome();
+        getNames();
+        xPlayer.out().println("You are facing: " + oPlayer.getName());
+        oPlayer.out().println("You are facing: " + xPlayer.getName());
 
-            // Game Setup
-            xPlayer.setBoard(theBoard);
-            oPlayer.setBoard(theBoard);
-            theRef.setBoard(theBoard);
-            theRef.setoPlayer(oPlayer);
-            theRef.setxPlayer(xPlayer);
+        // Game Setup
+        xPlayer.setBoard(theBoard);
+        oPlayer.setBoard(theBoard);
+        theRef.setBoard(theBoard);
+        theRef.setoPlayer(oPlayer);
+        theRef.setxPlayer(xPlayer);
 
-            // Game Start
-            theRef.runTheGame();
-
-            // TODO Maybe turn into rematch option? or have this as exit?
-            // try {
-            //     while (!xPlayer.in().readLine().equals("Q") || !oPlayer.in().readLine().equals("Q")) {
-
-            //     }
-            // } catch (IOException e) {
-            //     e.printStackTrace();
-            // }
-        }
-        catch (SocketException e) {
-            xPlayer.out().println("The other player has disconnected, please restart the game");
-            oPlayer.out().println("The other player has disconnected, please restart the game");
-        }
+        // Game Start
+        theRef.runTheGame();
     }
 
     private void getNames(){
@@ -68,24 +53,10 @@ public class Game implements Constants, Runnable {
         try{
             xPlayer.setName(xPlayer.in().readLine());
             oPlayer.setName(oPlayer.in().readLine());
-            // // TODO Better name validation - do in a method
-            // while(xPlayer.getName().equals(null) || oPlayer.getName().equals(null)){
-            //     if(xPlayer.getName().equals(null)){
-            //         xPlayer.out().print("Please try again: ");
-            //         xPlayer.out().println("1");
-            //         xPlayer.setName(xPlayer.in().readLine());
-            //     }
-            //     if(oPlayer.getName().equals(null)){
-            //         oPlayer.out().print("Please try again: ");
-            //         oPlayer.out().println("1");
-            //         oPlayer.setName(xPlayer.in().readLine());
-            //     }
-            // }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
     private void playerWelcome() {
         xPlayer.out().println("Opponent found, game starting...");
         oPlayer.out().println("Opponent found, game starting...");

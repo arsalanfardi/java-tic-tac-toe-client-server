@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class Server {
+public class Server implements Constants {
     private Socket socket;
     private ServerSocket serverSocket;
     private BufferedReader oSocketIn, xSocketIn;
@@ -31,19 +31,10 @@ public class Server {
             while(true){
                 //Getting the first player's connection
                 socket = serverSocket.accept();
-                System.out.println("Player X connected... waiting for opponent");
-                xSocketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                xSocketOut = new PrintWriter(socket.getOutputStream(), true);
-                xSocketOut.println("You are Player X... waiting for opponent");
-                xSocketOut.println("3X");
+                connectXPlayer();
                 //Getting the second player's connection
                 socket = serverSocket.accept();
-                System.out.println("Player O connected");
-                oSocketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                oSocketOut = new PrintWriter(socket.getOutputStream(), true);
-                xSocketOut.println("Player O connected");
-                oSocketOut.println("Player O connected");
-                oSocketOut.println("3O");
+                connectOPlayer();
                 //Start a new Game
                 pool.execute(new Game(xSocketIn, oSocketIn, xSocketOut, oSocketOut));
             }
@@ -69,6 +60,23 @@ public class Server {
         }
     }
 
+    private void connectXPlayer() throws IOException {
+        System.out.println("Player X connected... waiting for opponent");
+        xSocketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        xSocketOut = new PrintWriter(socket.getOutputStream(), true);
+        xSocketOut.println("You are Player X... waiting for opponent");
+        xSocketOut.print("3");
+        xSocketOut.println(LETTER_X);
+        
+    }
+
+    private void connectOPlayer() throws IOException{
+        System.out.println("Player O connected");
+        oSocketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        oSocketOut = new PrintWriter(socket.getOutputStream(), true);
+        oSocketOut.print("3");
+        oSocketOut.println(LETTER_O);
+    }
     public static void main(String[] args) {
         Server server = new Server();
         server.runServer();

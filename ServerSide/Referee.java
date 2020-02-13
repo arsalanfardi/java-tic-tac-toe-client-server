@@ -29,7 +29,7 @@ public class Referee {
 	/**
 	 * Assigns opponents to each player and begins game with xPlayer starting first
 	 */
-	public void runTheGame() throws SocketException {
+	public void runTheGame() {
 		oPlayer.setOpponent(xPlayer);
 		xPlayer.setOpponent(oPlayer);
 		xPlayer.play();

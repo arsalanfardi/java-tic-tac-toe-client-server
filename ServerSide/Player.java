@@ -39,7 +39,7 @@ public class Player {
      * the opponent. Gives option of playing again with the same players once the
      * game ends.
      */
-	public void play() throws SocketException {
+	public void play() {
         opponent.out().println(name + "'s turn");
 		while(checkMove()) {
             this.makeMove();
@@ -57,7 +57,7 @@ public class Player {
 	 * Receives inputs from user on which position they would like to play.
 	 * Checks if the entry is valid by invoking isValid(), before adding the player's mark to the board.
 	 */
-	public void makeMove() throws SocketException {
+	public void makeMove() {
 		int row = 3;
         int col = 3;
         String position = "";
@@ -75,15 +75,22 @@ public class Player {
                 return;
             }
         }
-        board.addMark(row, col, mark);
+        updateBoards(position);
+	}
+
+    private void updateBoards(String position) {
+        board.addMark(Character.getNumericValue(position.charAt(0)), Character.getNumericValue(position.charAt(1)), mark);
         socketOut.println("4" + mark + position);
         opponent.out().println("4" + mark + position);
         socketOut.println(opponent.getName() + "'s turn");
-	}
-	/**
-	 * Assigns board object to the Board instance variable, representing the playing field
-	 * @param board
-	 */
+    }
+
+    /**
+     * Assigns board object to the Board instance variable, representing the playing
+     * field
+     * 
+     * @param board
+     */
 	public void setBoard(Board board) {
 		this.board = board;
 	}
@@ -93,6 +100,14 @@ public class Player {
 	 */
 	public void setOpponent(Player opponent) {
 		this.opponent = opponent;
+    }
+
+    /** 
+     * Returns the players opponent
+     * @return opponent
+    */
+    public Player getOpponent(){
+        return opponent;
     }
 	/**
 	 * Returns true if a move is valid, meaning it is within the boundaries of the board 
@@ -114,37 +129,31 @@ public class Player {
 	 * @return
 	 */
 	private boolean checkMove() {
-		if(board.isFull()) {
-            socketOut.println("5It's a tie!");
-            opponent.out().println("5It's a tie!");
-			return false;
-		}
-		else if (board.xWins()) {
-            socketOut.println("5GAME OVER: " + name + " wins!");
-            opponent.out().println("5GAME OVER: " + name + " wins!");
+	    if (board.xWins()) {
+            String message = "GAME OVER: " + name + " wins!";
+            gameOver(message);
 			return false;
 		}
 		else if(board.oWins()) {
-            socketOut.println("5GAME OVER: " + opponent.getName() + " wins!");
-            opponent.out().println("5GAME OVER: " + opponent.getName() + " wins!");
+            String message = "GAME OVER: " + opponent.getName() + " wins!";
+            gameOver(message);
+			return false;
+        }
+        else if(board.isFull()) {
+            String message = "It's a tie!";
+            gameOver(message);
 			return false;
 		}
 		return true;
 	}
-	/**
-	 * Receives user input on whether they would like to play again.
-	 * If so, clears the board and invokes play() once again.
-	 */
-	private void playAgain() {
-		System.out.println("Enter 1 to play again, or any other key to end the game");
-		// Scanner scan = new Scanner(System.in);
-		// int input = Integer.parseInt(scan.nextLine());
-		// if(input == 1) {
-		// 	board.clear();
-		// 	this.play();
-		// }
+	
+    private void gameOver(String message) {
+        socketOut.print("5");
+        opponent.out().print("5");
+        socketOut.println(message);
+        opponent.out().println(message);
     }
-    
+
 	/**
 	 * Returns the name of the player
 	 * @return

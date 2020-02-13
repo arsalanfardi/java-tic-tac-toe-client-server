@@ -13,8 +13,7 @@ public class Client {
     private Controller controller;
     private boolean live;
 
-    public Client
-(String serverName, int portNumber) {
+    public Client(String serverName, int portNumber) {
         try {
             aSocket = new Socket(serverName, portNumber);
             stdIn = new BufferedReader(new InputStreamReader(System.in));
@@ -39,7 +38,6 @@ public class Client {
                 if(serverResponse != null){
                     controller.switchBoard(serverResponse);
                 }
-               
             }
             catch(IOException e){
                 e.printStackTrace();
