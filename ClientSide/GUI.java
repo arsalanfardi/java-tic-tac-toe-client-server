@@ -8,9 +8,9 @@ import javax.swing.*;
  * 
  * Handles the creation of all frames and message boxes. Uses a GridBagLayout for enhanced customization.
  * 
- * @author A. Fardi
- * @version 1
- * @since November 6, 2019
+ * @author A. Fardi & Mihai Robu
+ * @version 2.0
+ * @since February 03, 2020
  */
 public class GUI extends JFrame {
 	
@@ -229,18 +229,6 @@ public class GUI extends JFrame {
 	    textPanel.add(userNameField);
 	    mainPanel.add(textPanel, gbc);
 	}
-
-	  /**
-     * Converts and reverses the messages in an ArrayList of Strings
-     * @return String of messages, properly formatted for output to message area
-     */
-    // private String convertMessageList () {
-    //     String converted = "";
-    //     for (int i = messageList.size() - 1; i >= 0; i--) {
-    //         converted += messageList.get(i) + "\n";
-    //     }
-	// 	return converted;
-	// }
 
 	/**
 	 * Adds the text panel.

@@ -4,8 +4,9 @@ import java.net.SocketException;
  * Referee class starts the game by assigning opponents and giving Player 'X'
  * the first turn.
  * 
- * @author arsal
- *
+ * @author A. Fardi & Mihai Robu
+ * @version 2.0
+ * @since February 03, 2020
  */
 public class Referee {
 	/**

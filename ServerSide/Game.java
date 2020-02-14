@@ -3,7 +3,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.SocketException;
 
+/**
+ * @author A. Fardi & Mihai Robu
+ * @version 2.0
+ * @since February 03, 2020
+ */
 
+ /**
+  * Runnable Class that is one Game instance played by two Clients
+  */
 public class Game implements Constants, Runnable {
     /** Declares Board object, which is the playing field */
     private Board theBoard;

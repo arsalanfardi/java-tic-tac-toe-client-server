@@ -10,6 +10,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author A. Fardi & Mihai Robu
+ * @version 2.0
+ * @since February 03, 2020
+ */
+
 public class Server implements Constants {
     private Socket socket;
     private ServerSocket serverSocket;
@@ -17,6 +23,9 @@ public class Server implements Constants {
     private PrintWriter oSocketOut, xSocketOut;
     private ExecutorService pool;
     
+    /**
+     * Constructor for Server that creates new socket and thread pool
+     */
     public Server() {
         try {
             serverSocket = new ServerSocket(9898);
@@ -26,6 +35,9 @@ public class Server implements Constants {
         }
     }
 
+    /**
+     * Starts server and continues to accept new connections - when two clients connected, start a new Game (implements Runnable)
+     */
     public void runServer(){
         try {
             while(true){

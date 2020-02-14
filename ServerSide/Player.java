@@ -9,7 +9,9 @@ import java.net.SocketException;
  * move is valid, marks the board at the corresponding position. Also gives the
  * option to play again by clearing the board.
  * 
- * @author arsal
+ * @author A. Fardi & Mihai Robu
+ * @version 2.0
+ * @since February 03, 2020
  *
  */
 
